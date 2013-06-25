@@ -15,4 +15,11 @@ $(function(){
             $(obj).removeClass('opt');
         })
     });
+
+    $('.addGroup').on('click', function(){
+        $('#myModal').modal('hide');
+        $.post('ajax.php', $('#groupModel').serialize(), function(){
+
+        });
+    });
 });

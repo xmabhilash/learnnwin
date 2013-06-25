@@ -16,12 +16,12 @@ $questions = $db->getAllQuestion();
         <tbody>
         <?php foreach ($questions as $question) {?>
             <tr>
-                <td colspan= "4"><i class="icon-chevron-right"></i><?php echo $question['question']?></td>
+                <td colspan= "4"><i class="icon-chevron-right"></i><b><?php echo $question['question']?></b></td>
             </tr>
             <tr>
                 <td><a href="javascript:void(0)" class="btn opt <?php echo $question['id']?>A" id='<?php echo $question['id']?>'>A</a> <?php echo $question['choice1']?></td>
                 <td><a href="javascript:void(0)" class="btn opt <?php echo $question['id']?>B" id='<?php echo $question['id']?>'>B</a> <?php echo $question['choice2']?></td>
-                <td><a href="javascript:void(0)" class="btn opt <?php echo $question['id']?>C" id='<?php echo $question['id']?>'>C</a> <?php echo $question['choice2']?></td>
+                <td><a href="javascript:void(0)" class="btn opt <?php echo $question['id']?>C" id='<?php echo $question['id']?>'>C</a> <?php echo $question['choice3']?></td>
                 <td><a href="javascript:void(0)" class="btn opt <?php echo $question['id']?>D" id='<?php echo $question['id']?>'>D</a> <?php echo $question['choice4']?></td>
             </tr>
         <?php }?>
