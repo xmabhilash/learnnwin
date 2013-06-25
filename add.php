@@ -1,18 +1,26 @@
-<?php 
-    include 'db.php';
+<?php
+require_once 'db.php';
+if (!$_SESSION['isLogin']) {
+    header('Location:login.php');
+}else {
     if (isset($_POST['add'])) {
         $db = new db();
         $db->addQuestion($_POST);
     }
+}
 ?>
-<html>
-    <head>
-        <title>Learn and win</title>
-        
-    </head>
-    <body>
+
+<?php
+require_once 'meta.php';
+require_once 'header.php';
+?>
+
+<div class="container">
+    <div class="login-wrapper center">
+        <div class="login-title">
+            <h3>Add question</h3>
+        </div>
         <form action="" method="post">
-            <h1>Add question</h1>
             <label>Question</label>
             <textarea name="question"></textarea>
             <br>
@@ -33,5 +41,9 @@
             <br>
             <input type="submit" name="add"/>
         </form>
-    </body>
-</html>
+    </div>
+</div> <!-- /container -->
+<?php
+require_once 'footer.php';
+?>
+
