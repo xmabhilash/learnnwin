@@ -9,7 +9,21 @@ $db = new db();
 if (isset($_POST['ajax'])) {
     switch ($_POST['ajax']) {
         case 'getAnswer':
-            echo $db->getAnswerById($_POST['id']);
+            $answer = $db->getAnswerById($_POST['id']);
+            if (!$db->getUserQuestionMap($_SESSION['userId'], $_POST['id'])) {
+                $db->insertUserQuestionMap($_SESSION['userId'], $_POST['id']);
+                $db->updateScore($_SESSION['userId']);
+            }
+            echo $answer;
+            break;
+        case 'updateScore':
+            $user = $db->getUserById($_SESSION['userId']);
+            if ($user) {
+                $_SESSION['score'] = $user['score'];
+                echo $user['score'];
+            } else {
+                echo 0;
+            }
             break;
     }
 }
