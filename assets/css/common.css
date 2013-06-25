@@ -1,0 +1,21 @@
+.center {
+    margin: 0 auto;
+}
+.login-wrapper {
+    background-color: #F7F7F7;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 2px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+    width: 380px;
+}
+.btn-large {
+    width: 100%;
+}
+.login-wrapper form {
+    margin: 0;
+    padding: 20px 30px;
+}
+.login-title {
+    background-color: #CCCCCC;
+    padding: 5px;
+}
