@@ -11,8 +11,12 @@ if (isset($_POST['ajax'])) {
         case 'getAnswer':
             $answer = $db->getAnswerById($_POST['id']);
             if (!$db->getUserQuestionMap($_SESSION['userId'], $_POST['id'])) {
-                $db->insertUserQuestionMap($_SESSION['userId'], $_POST['id']);
-                $db->updateScore($_SESSION['userId']);
+                $status = 'F';
+                if ($answer == $_POST['choice']) {
+                    $db->updateScore($_SESSION['userId']);
+                    $status = 'S';
+                }
+                $db->insertUserQuestionMap($_SESSION['userId'], $_POST['id'], $status);
             }
             echo $answer;
             break;
@@ -24,6 +28,11 @@ if (isset($_POST['ajax'])) {
             } else {
                 echo 0;
             }
+            break;
+        case 'addGroup':
+            $groupId = $db->addGroup($_POST);
+            $db->addUserGroupMap($_SESSION['userId'], $groupId);
+            echo 1;
             break;
     }
 }
