@@ -1,26 +1,64 @@
-<?php 
-    include 'db.php';
-    $db = new db();
-    $questions = $db->getAllQuestion();
+<?php
+include 'db.php';
+if (!$_SESSION['isLogin']) {
+    header('Location:login.php');
+}
+$db = new db();
+if ($_GET['type'] == 'view') {
+    $answers['correct'] = $db->getUserAnswers('S');
+    $answers['wrong'] = $db->getUserAnswers('F');
+} else {
+    $answers['correct'] = $db->getUserquestions($_SESSION['userId']);
+}
 ?>
-<html>
-    <head>
-        <title>Learn and win</title>
-        <style>
-            ol li {cursor: pointer;}
-        </style>
-    </head>
-    <body>
-        <h3>Questions</h3>
-        <?php foreach ($questions as $question) {?>
-        <div><?php echo $question['question']?></div>
-        <ol style="list-style: upper-alpha outside ">
-        <li><?php echo $question['choice1']?></li>
-        <li><?php echo $question['choice2']?></li>
-        <li><?php echo $question['choice3']?></li>
-        <li><?php echo $question['choice4']?></li>
-        </ol>
-        Answer:<?php echo $question['answer']?>
+<?php
+require_once 'meta.php';
+require_once 'header.php';
+?>
+    <div class="container">
+        <?php if (isset($answers['wrong'])) {?>
+        <ul id="tab" class="nav nav-tabs">
+            <li class="active"><a href="#correct" data-toggle="tab">Correct</a></li>
+
+                <li><a href="#wrong" data-toggle="tab">Wrong</a></li>
+
+        </ul>
         <?php }?>
-    </body>
-</html>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="correct">
+                <table class="table table-bordered questionList">
+                    <tbody>
+                    <?php foreach ($answers['correct'] as $correct) {?>
+                        <tr>
+                            <td><i class="icon-chevron-right"></i><b><?php echo $correct['question']?></b></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo $correct['result']?></td>
+                        </tr>
+                    <?php }?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if (isset($answers['wrong'])) {?>
+            <div class="tab-pane fade" id="wrong">
+                <table class="table table-bordered questionList">
+                    <tbody>
+                    <?php foreach ($answers['wrong'] as $wrong) {?>
+                        <tr>
+                            <td><i class="icon-chevron-right"></i><b><?php echo $wrong['question']?></b></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo $wrong['result']?></td>
+                        </tr>
+                    <?php }?>
+                    </tbody>
+                </table>
+            </div>
+            <?php }?>
+        </div>
+
+    </div> <!-- /container -->
+
+<?php
+require_once 'footer.php';
+?>
