@@ -1,10 +1,10 @@
 <?php
 require_once 'db.php';
+$db = new db();
 if (!$_SESSION['isLogin']) {
     header('Location:login.php');
 }else {
     if (isset($_POST['add'])) {
-        $db = new db();
         $db->addQuestion($_POST);
     }
 }
@@ -39,7 +39,7 @@ require_once 'header.php';
             <label>Answer</label>
             <input name="answer" placeholder="A/B/C/D">
             <br>
-            <input type="submit" name="add"/>
+            <input type="submit" name="add" value="Add"/>
         </form>
     </div>
 </div> <!-- /container -->

@@ -16,7 +16,7 @@
         }
         public function addQuestion($post) 
         {
-            $sql = 'insert into question(question,choice1, choice2, choice3,choice4, answer, userId) values ("'.$post['question'].'", "'.$post['choice1'].'", "'.$post['choice2'].'","'.$post['choice3'].'", "'.$post['choice4'].'", "'.$post['answer'].'", "'.$_SESSION['userId'].'")';
+            $sql = 'insert into question(question,choice1, choice2, choice3,choice4, answer, userId) values ("'.mysql_real_escape_string($post['question']).'", "'.mysql_real_escape_string($post['choice1']).'", "'.mysql_real_escape_string($post['choice2']).'","'.mysql_real_escape_string($post['choice3']).'", "'.mysql_real_escape_string($post['choice4']).'", "'.$post['answer'].'", "'.$_SESSION['userId'].'")';
             mysql_query($sql, $this->db);
         }
         public function getAllQuestion() 
@@ -38,7 +38,7 @@
         }
         public function addUser($post)
         {
-            $sql = 'insert into user(email,password, firstName, lastName) values ("'.$post['email'].'", "'.md5($post['password']).'", "'.$post['firstName'].'","'.$post['lastName'].'")';
+            $sql = 'insert into user(email,password, firstName, lastName) values ("'.mysql_real_escape_string($post['email']).'", "'.md5($post['password']).'", "'.mysql_real_escape_string($post['firstName']).'","'.mysql_real_escape_string($post['lastName']).'")';
             mysql_query($sql, $this->db);
         }
         public function loginUser($post)
@@ -60,8 +60,8 @@
             $_SESSION['isLogin'] = false;
             session_destroy();
         }
-        public function getUserQuestionMap($userId, $questionId) {
-            $sql = 'select * from userQuestionMap where userId = '.$userId.' and questionId = '.$questionId;
+        public function getuserquestionmap($userId, $questionId) {
+            $sql = 'select * from userquestionmap where userId = '.$userId.' and questionId = '.$questionId;
             $result = mysql_query($sql, $this->db);
             $row = mysql_fetch_array($result);
             if ($row) {
@@ -69,9 +69,9 @@
             }
             return false;
         }
-        public function insertUserQuestionMap($userId, $questionId, $status)
+        public function insertuserquestionmap($userId, $questionId, $status)
         {
-            $sql = 'insert into userQuestionMap(userId, questionId, `status`) values ("'.$userId.'", "'.$questionId.'", "'.$status.'")';
+            $sql = 'insert into userquestionmap(userId, questionId, `status`) values ("'.$userId.'", "'.$questionId.'", "'.$status.'")';
             mysql_query($sql, $this->db);
         }
         public function updateScore($userId)
@@ -89,13 +89,13 @@
 
         public function addGroup($post)
         {
-            $sql = 'insert into `group`(`name`,`time`, userId) values ("'.$post['name'].'", "'.$post['time'].'", "'.$_SESSION['userId'].'")';
+            $sql = 'insert into `group`(`name`,`time`, userId) values ("'.mysql_real_escape_string($post['name']).'", "'.$post['time'].'", "'.$_SESSION['userId'].'")';
             mysql_query($sql, $this->db);
             return mysql_insert_id();
         }
-        public function addUserGroupMap($userId, $groupId)
+        public function addusergroupmap($userId, $groupId)
         {
-            $sql = 'insert into userGroupMap(userId,groupId) values ("'.$userId.'", "'.$groupId.'")';
+            $sql = 'insert into usergroupmap(userId,groupId) values ("'.$userId.'", "'.$groupId.'")';
             mysql_query($sql, $this->db);
         }
 
@@ -119,8 +119,8 @@
                 end )
                 as result,question
                 from question
-                left join userQuestionMap on(question.id = userQuestionMap.questionId)
-                where userQuestionMap.userId = 1 and userQuestionMap.status = '".$type."'";
+                left join userquestionmap on(question.id = userquestionmap.questionId)
+                where userquestionmap.userId = ".$_SESSION['userId']." and userquestionmap.status = '".$type."'";
             $result = mysql_query($sql, $this->db);
             $return = array();
             while ($row = mysql_fetch_array($result)) {

@@ -19,7 +19,7 @@
                 <?php
                     if (isset($_SESSION['isLogin']) && $_SESSION['isLogin']) {?>
                         <a class="btn btn-success" href="#topperModal" data-toggle="modal">Toppers</a>
-                        <a class="btn btn-primary" href="#myModal" data-toggle="modal">Add Group</a>
+                        <!--<a class="btn btn-primary" href="#myModal" data-toggle="modal">Add Group</a>-->
                         <a href="javascript:void(0)" class="btn btn btn-success btn-score">Score:<?php echo $_SESSION['score'];?></a>
                         <a href="add.php" class="btn btn-primary">Add Question</a>
                         <a href="logout.php" class="btn btn btn-warning">Logout</a>
