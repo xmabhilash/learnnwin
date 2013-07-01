@@ -5,10 +5,10 @@ if (!$_SESSION['isLogin']) {
 }
 $db = new db();
 if ($_GET['type'] == 'view') {
-    $answers['correct'] = $db->getUserAnswers('S');
-    $answers['wrong'] = $db->getUserAnswers('F');
+    $answers['correct'] = $db->getUserAnswers('S', $_GET['user']);
+    $answers['wrong'] = $db->getUserAnswers('F', $_GET['user']);
 } else {
-    $answers['correct'] = $db->getUserquestions($_SESSION['userId']);
+    $answers['correct'] = $db->getUserquestions($_GET['user']);
 }
 ?>
 <?php
@@ -28,14 +28,21 @@ require_once 'header.php';
             <div class="tab-pane fade in active" id="correct">
                 <table class="table table-bordered questionList">
                     <tbody>
-                    <?php foreach ($answers['correct'] as $correct) {?>
+                    <?php
+                    if (sizeof($answers['correct']) >0 ) {
+                    foreach ($answers['correct'] as $correct) {?>
                         <tr>
                             <td><i class="icon-chevron-right"></i><b><?php echo $correct['question']?></b></td>
                         </tr>
                         <tr>
                             <td><?php echo $correct['result']?></td>
                         </tr>
-                    <?php }?>
+                    <?php }
+                    } else {?>
+                        <tr>
+                            <td><i class="icon-thumbs-down"></i ><b>No question found</b></td>
+                        </tr>
+                    <? }?>
                     </tbody>
                 </table>
             </div>
@@ -43,12 +50,19 @@ require_once 'header.php';
             <div class="tab-pane fade" id="wrong">
                 <table class="table table-bordered questionList">
                     <tbody>
-                    <?php foreach ($answers['wrong'] as $wrong) {?>
+                    <?php
+                    if (sizeof($answers['wrong']) >0 ) {
+                    foreach ($answers['wrong'] as $wrong) {?>
                         <tr>
                             <td><i class="icon-chevron-right"></i><b><?php echo $wrong['question']?></b></td>
                         </tr>
                         <tr>
                             <td><?php echo $wrong['result']?></td>
+                        </tr>
+                    <?php }
+                    } else {?>
+                        <tr>
+                            <td><i class="icon-thumbs-down"></i ><b>No question found</b></td>
                         </tr>
                     <?php }?>
                     </tbody>

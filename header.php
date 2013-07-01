@@ -58,21 +58,13 @@
         <a class="close" data-dismiss="modal" >&times;</a>
         <h3>Top scorers</h3>
     </div>
-    <table class="table table-bordered questionList">
+    <table class="table table-bordered questionList toppers">
         <thead>
             <th>Name</th>
             <th>Score</th>
             <th>View</th>
         </thead>
         <tbody>
-        <?php foreach ($scores as $score) {?>
-            <tr>
-                <td><?php echo $score['firstName'].' '.$score['lastName']?></td>
-                <td><?php echo $score['score']?></td>
-                <td><a href="list.php?type=view&user=<?php echo $score['id'];?>" class="btn">View</a><a href="list.php?type=contribution&user=<?php echo $score['id'];?>" class="btn">Contributions</a></td>
-            </tr>
-        <?php }?>
-        </tbody>
     </table>
     <div class="modal-footer">
         <a href="javascript:void(0)" class="btn btn-primary">Save changes</a>

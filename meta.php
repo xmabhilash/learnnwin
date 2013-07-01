@@ -20,6 +20,7 @@
     </style>
     <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="assets/css/common.css" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico">
 </head>
 
 <body>
