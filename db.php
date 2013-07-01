@@ -19,9 +19,9 @@
             $sql = 'insert into question(question,choice1, choice2, choice3,choice4, answer, userId) values ("'.mysql_real_escape_string($post['question']).'", "'.mysql_real_escape_string($post['choice1']).'", "'.mysql_real_escape_string($post['choice2']).'","'.mysql_real_escape_string($post['choice3']).'", "'.mysql_real_escape_string($post['choice4']).'", "'.$post['answer'].'", "'.$_SESSION['userId'].'")';
             mysql_query($sql, $this->db);
         }
-        public function getAllQuestion() 
+        public function getAllQuestion($limit = 0, $offset = 9999999)
         {
-            $sql = 'select * from question where isActive = 1 order by id desc';
+            $sql = 'select * from question where isActive = 1 order by id desc limit '.$limit.', '.$offset;
             $result = mysql_query($sql, $this->db);
             $return = array();
             while ($row = mysql_fetch_array($result)) {
@@ -109,7 +109,7 @@
             }
             return $return;
         }
-        public function getUserAnswers($type)
+        public function getUserAnswers($type, $userId)
         {
             $sql = "select (CASE
                 when answer = 'A' then choice1
@@ -120,7 +120,7 @@
                 as result,question
                 from question
                 left join userquestionmap on(question.id = userquestionmap.questionId)
-                where userquestionmap.userId = ".$_SESSION['userId']." and userquestionmap.status = '".$type."'";
+                where userquestionmap.userId = ".$userId." and userquestionmap.status = '".$type."'";
             $result = mysql_query($sql, $this->db);
             $return = array();
             while ($row = mysql_fetch_array($result)) {
@@ -145,5 +145,23 @@
                 $return[] = $row;
             }
             return $return;
+        }
+        public function getAnswerByQuestion($question)
+        {
+            $sql = 'select * from question where question = "'.$question.'"';
+            $result = mysql_query($sql, $this->db);
+            if ($row = mysql_fetch_array($result)) {
+                return true;
+            }
+            return false;
+        }
+        public function getQuestionCount()
+        {
+            $sql = 'select count(*) as `count` from question where isActive = 1';
+            $result = mysql_query($sql, $this->db);
+            if ($row = mysql_fetch_array($result)) {
+                return $row['count'];
+            }
+            return 0;
         }
     }
