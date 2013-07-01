@@ -1,7 +1,7 @@
 var timeout;
 var resultString;
 $(function(){
-    $('.questionList .opt').on('click', function () {
+    $('.container').on('click', '.questionList .opt', function () {
         var obj = this;
         $.post('ajax.php', {ajax:'getAnswer', id:$(this).attr('id'), choice:$(obj).text()}, function(result) {
             if ($(obj).text() != result) {
@@ -26,9 +26,11 @@ $(function(){
     $('#topperModal').on('show', function () {
         $.post('ajax.php', {ajax:'getToppers'}, function(result){
             var str = '';
+            result = jQuery.parseJSON(result);
             $.each(result, function( i, item ) {
-
+                str +="<tr><td>"+item.firstName+" "+item.lastName+"</td><td>"+item.score+"</td><td><a href='list.php?type=view&user="+item.id+"' class='btn'>View</a><a href='list.php?type=contribution&user="+item.id+"' class='btn'>Contributions</a></td></tr>";
             });
+            $('.toppers tbody').html(str);
         });
 
     });
@@ -46,7 +48,26 @@ $(function(){
         stringArray[stringArray.length-1] = $(this).text()+' ';
         $('#editor-box').html(stringArray.join(" "));
     });
+    $('.container').on('click', '.pagination ul li', function(){
+        if ($(this).hasClass('noClick')) {
+            return;
+        }
+        var page = $(this).children(1).html();
+        if ($(this).hasClass('prev')) {
+            page = parseInt($('.pagination ul li.active').children(1).html())-1;
+        }
+        if ($(this).hasClass('next')) {
+            page = parseInt($('.pagination ul li.active').children(1).html())+1;
+        }
+        loadHomeQuestionList(page);
+    });
+    loadHomeQuestionList(1);
 });
+function loadHomeQuestionList(page) {
+    $.post('listAjax.php', {page:page}, function(result){
+        $('.questionContainer').html(result).fadeIn();
+    });
+}
 function dotransilation()
 {
     var string = $('#editor-box').text();
