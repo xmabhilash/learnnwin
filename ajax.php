@@ -34,5 +34,13 @@ if (isset($_POST['ajax'])) {
             $db->addUserGroupMap($_SESSION['userId'], $groupId);
             echo 1;
             break;
+        case 'getToppers':
+            $scores = $db->getToppers();
+            echo json_encode($scores);
+            break;
+        case 'translate':
+            $response = file_get_contents('https://inputtools.google.com/request?text='.$_POST['key'].'&itc=ml-t-i0-und&num=10&cp=0&cs=1&ie=utf-8&oe=utf-8');
+            echo $response;
+            break;
     }
 }
